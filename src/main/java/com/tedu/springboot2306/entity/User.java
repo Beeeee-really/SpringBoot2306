@@ -11,6 +11,7 @@ public class User implements Serializable {
     private String nickname;
     private int age;
 
+
     public String getUsername() {
         return username;
     }
@@ -43,12 +44,15 @@ public class User implements Serializable {
         this.age = age;
     }
 
+    public User(){}
     public User(String username, String password, String nickname, int age) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.age = age;
     }
+
+
 
 
     @Override
@@ -61,8 +65,6 @@ public class User implements Serializable {
                 '}';
     }
 
-    public User(){
 
-    }
 
 }

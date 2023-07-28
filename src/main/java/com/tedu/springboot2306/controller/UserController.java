@@ -20,7 +20,7 @@ public class UserController {
 
     static {
         userDir = new File("./users");
-        if (!userDir.exists()){
+        if (!userDir.exists()) {
             userDir.mkdirs();
         }
     }
@@ -51,20 +51,31 @@ public class UserController {
         int age = Integer.parseInt(ageStr);
         User user = new User(username, password, nickname, age);
 
-        File file = new File(userDir,username+".obj");
+        File file = new File(userDir, username + ".obj");
 
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if(file.exists()){
+            try {
+                response.sendRedirect("/have_user.html");
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try(
+                FileOutputStream fos = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+        ){
+            oos.writeObject(user);
+            response.sendRedirect("/signup_success.html");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
-
     }
+
+
+
 
 
     @RequestMapping("/loginUser")
@@ -75,5 +86,7 @@ public class UserController {
         System.out.println(username + "," + password);
         ;
     }
+
+
 
 }
