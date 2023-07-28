@@ -30,7 +30,9 @@ public class UserController {
     public void loginUser(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("处理...");
         String username = request.getParameter("username");
-        String password = request.getParameter("password")
-;    }
+        String password = request.getParameter("password");
+        System.out.println(username + "," + password);
+        ;
+    }
 
 }
