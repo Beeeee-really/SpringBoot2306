@@ -15,8 +15,22 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     @RequestMapping("/signupUser")
+    //                    请求                            响应
     public void signUp(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("处理...");
+        String username = request.getParameter("username");//与输入用户名输入框属性的值相符
+        String password = request.getParameter("password");
+        String nickname = request.getParameter("nickname");
+        String ageStr = request.getParameter("age");
+        System.out.println(username + "," + password + "," + nickname + "," + ageStr);
     }
+
+
+    @RequestMapping("/loginUser")
+    public void loginUser(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("处理...");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password")
+;    }
 
 }
