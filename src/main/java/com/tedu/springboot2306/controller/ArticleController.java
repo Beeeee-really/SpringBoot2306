@@ -170,7 +170,7 @@ public class ArticleController {
                 pw.println("<h1>" + article.getName() + "</h1>");
 
                 pw.println("<h3>" + article.getAuthor() + "</h3>");
-                
+
                 pw.println("<h4>" + article.getValue() + "</h4>");
 
                 pw.println("</center>");
