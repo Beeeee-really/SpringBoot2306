@@ -138,6 +138,46 @@ public class UserController {
                 e.printStackTrace();
             }
         }
+
+        try {
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter pw = response.getWriter();
+
+            pw.println("<!DOCTYPE html>\n");
+            pw.println("<html lang=\"en\">\n");
+            pw.println("<head>\n");
+            pw.println("<meta charset=\"UTF-8\">");
+            pw.println("    <title>用户信息</title>\n");
+            pw.println("</head>");
+            pw.println("<body>\n");
+            pw.println("    <a href=\"/index.html\">返回首页</a>\n");
+            pw.println("<center>");
+            pw.println("<h1>用户信息</h1>");
+            pw.println("<br>");
+            pw.println("<table border=\"2\">");
+            pw.println("<tr>");
+            pw.println("<td>用户名</td>");
+            pw.println("<td>昵称</td>");
+            pw.println("<td>年龄</td>");
+
+            pw.println("</tr>");
+
+            for (User user : userList) {
+                pw.println("<tr>");
+                pw.println("<td>" + user.getUsername() + "</td>");
+                pw.println("<td>" + user.getNickname() + "</td>");
+                pw.println("<td>" + user.getAge() + "</td>");
+                pw.println("</tr>");
+
+
+            }
+
+            pw.println("</table>");
+            pw.println("</center>");
+            pw.println("</body>");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

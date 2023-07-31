@@ -7,6 +7,15 @@ public class Article implements Serializable {
     private String value;
 
     public Article(){}
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
     public Article(String name, String value) {
         this.name = name;
         this.value = value;
