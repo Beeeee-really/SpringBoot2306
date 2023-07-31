@@ -28,6 +28,7 @@ public class ArticleController {
         System.out.println("处理...");
         String name = request.getParameter("name");
         String value = request.getParameter("text");
+        String author = request.getParameter("author");
 
         System.out.println(name + "," + value);
 
@@ -54,13 +55,13 @@ public class ArticleController {
             return;
         }
 
-        Article article = new Article(name,value);
+        Article article = new Article(name, value, author);
 
         try (
                 FileOutputStream fos = new FileOutputStream(file);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
         ) {
-            oos.writeObject(file);
+            oos.writeObject(article);
             response.sendRedirect("/article_success.html");
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,7 +69,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/articleList")
-    public void articleList(HttpServletRequest request,HttpServletResponse response) {
+    public void articleList(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("处理...");
 
 
@@ -81,9 +82,8 @@ public class ArticleController {
                     ObjectInputStream ois = new ObjectInputStream(fis);
             ) {
                 Article article = (Article) ois.readObject();
-                System.out.println(article);
                 articleList.add(article);
-            } catch (Exception e) {
+            } catch (IOException | ClassCastException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -92,28 +92,29 @@ public class ArticleController {
             PrintWriter pw = response.getWriter();
 
             pw.println("<!DOCTYPE html>");
-            pw.println("<html lang=\"en\">");
+            pw.println("<html>");
             pw.println("<head>");
             pw.println("<meta charset=\"UTF-8\">");
             pw.println("    <title>文章</title>");
             pw.println("</head>");
             pw.println("<body>");
             pw.println("    <a href=\"/index.html\">返回首页</a>");
+            pw.println("    <a href=\"/write_article.html\">写文章</a>\n");
             pw.println("<center>");
             pw.println("<h1>所有文章</h1>");
             pw.println("<br>");
             pw.println("<table border=\"2\">");
             pw.println("<tr>");
             pw.println("<td>标题</td>");
-            pw.println("<td>内容</td>");
+            pw.println("<td>作者</td>");
 
 
             pw.println("</tr>");
 
             for (Article article : articleList) {
                 pw.println("<tr>");
-                pw.println("<td>" + article.getName() + "</td>");
-                pw.println("<td>" + article.getValue() + "</td>");
+                pw.println("<td><a href=\"/showArticle?name=" + article.getName() + "\">" + article.getName() + "</a></td>");
+                pw.println("<td>" + article.getAuthor() + "</td>");
                 pw.println("</tr>");
 
 
@@ -125,6 +126,64 @@ public class ArticleController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    @RequestMapping("/showArticle")
+    public void shoeArticle(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("处理...");
+        String name = request.getParameter("name");
+        System.out.println(name + ".obj");
+        File file = new File("./article/"+name + ".obj");
+        if (name == null || name.isEmpty()) {
+            try {
+                response.sendRedirect("/error.html");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+        if (!file.exists()) {
+            try {
+                response.sendRedirect("/error.html");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try (
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+        ) {
+            Article article = (Article) ois.readObject();
+            try {
+                response.setContentType("text/html;charset=utf-8");
+                PrintWriter pw = response.getWriter();
+                pw.println("<!DOCTYPE html>");
+                pw.println("<html>");
+                pw.println("<head>");
+                pw.println("<meta charset=\"UTF-8\">");
+                pw.println("<title>文章详情</title>");
+                pw.println("</head>");
+                pw.println("<body>");
+                pw.println("<a href=\"/articleList\">返回</a>");
+                pw.println("<center>");
+                pw.println("<h1>" + article.getName() + "</h1>");
+
+                pw.println("<h3>" + article.getAuthor() + "</h3>");
+                
+                pw.println("<h4>" + article.getValue() + "</h4>");
+
+                pw.println("</center>");
+                pw.println("</body>");
+                pw.println("</html>");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
