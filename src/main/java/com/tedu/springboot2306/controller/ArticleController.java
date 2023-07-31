@@ -103,13 +103,8 @@ public class ArticleController {
             pw.println("<center>");
             pw.println("<h1>所有文章</h1>");
             pw.println("<br>");
-            pw.println("<table border=\"2\">");
-            pw.println("<tr>");
-            pw.println("<td>标题</td>");
-            pw.println("<td>作者</td>");
+            pw.println("<table>");
 
-
-            pw.println("</tr>");
 
             for (Article article : articleList) {
                 pw.println("<tr>");

@@ -52,6 +52,14 @@ public class UserController {
             //数据不正确，响应错误页面
         }
         int age = Integer.parseInt(ageStr);
+        if(!(age>0)){
+            try {
+                response.sendRedirect("/sign_info_error.html");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
         User user = new User(username, password, nickname, age);
 
         File file = new File(userDir, username + ".obj");
