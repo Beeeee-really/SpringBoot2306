@@ -5,7 +5,7 @@
     <title>主页</title>
     <script>
         function redirectToUserWebsite() {
-            var userInput = "https://www.baidu.com/s?wd="+document.getElementById("websiteInput").value+"&sa=ire_dl_gh_logo_texing&rsv_dl=igh_logo_pcs";
+            var userInput = "https://www.baidu.com/s?wd=" + document.getElementById("websiteInput").value + "&sa=ire_dl_gh_logo_texing&rsv_dl=igh_logo_pcs";
             window.location.href = userInput;
         }
     </script>
@@ -19,9 +19,17 @@
     <h1>UoU</h1>
     百度
     <br>
-    <input type="text" id="websiteInput" placeholder="输入你要搜索的内容">
-    <button onclick="redirectToUserWebsite()">搜索</button>
-    <br>
+    <table>
+        <tr>
+            <td>
+                <input type="text" id="websiteInput" placeholder="输入你要搜索的内容">
+            </td>
+            <td>
+                <button onclick="redirectToUserWebsite()">搜索</button>
+            </td>
+        </tr>
+
+    </table>
     <br>
     <!--<input type="radio" name="gender">国内版 <input type="radio" name="gender">国内版
     <input type="checkbox" name="awa">qwq
