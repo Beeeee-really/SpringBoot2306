@@ -4,10 +4,13 @@ import com.tedu.springboot2306.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 当前类用于处理用户数据相关的业务
@@ -88,27 +91,39 @@ public class UserController {
         }
 
         //读取注册信息
-        File file = new File("./users/"+username + ".obj");
+        File file = new File("./users/" + username + ".obj");
         if (file.exists()) {
             try (
                     FileInputStream fis = new FileInputStream(file);
-                    ObjectInputStream ois =new ObjectInputStream(fis);
-                    )
-            {
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+            ) {
                 User user = (User) ois.readObject();
-                if (user.getPassword().equals(password)){
+                if (user.getPassword().equals(password)) {
                     response.sendRedirect("/login_success.html");
-                }else{
+                } else {
                     response.sendRedirect("/login_fail.html");
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             response.sendRedirect("/login_fail.html");
         }
 
+
+    }
+
+    @RequestMapping("/userList")
+    public void userList(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("处理...");
+        /*
+            读取
+            生成
+            发送
+         */
+        List<User> userList = new ArrayList<>();
+        userDir.listFiles(f -> f.getName().endsWith(".obj"));
 
     }
 

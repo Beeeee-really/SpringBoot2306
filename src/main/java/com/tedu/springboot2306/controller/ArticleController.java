@@ -34,7 +34,7 @@ public class ArticleController {
         if (name == null || name.isEmpty() ||
                 value == null || value.isEmpty()) {
             try {
-                response.sendRedirect("/article_fail");
+                response.sendRedirect("/article_fail.html");
                 return;
             } catch (IOException e) {
                 throw new RuntimeException(e);
