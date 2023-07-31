@@ -53,7 +53,7 @@ public class UserController {
 
         File file = new File(userDir, username + ".obj");
 
-        if(file.exists()){
+        if (file.exists()) {
             try {
                 response.sendRedirect("/have_user.html");
                 return;
@@ -61,10 +61,10 @@ public class UserController {
                 throw new RuntimeException(e);
             }
         }
-        try(
+        try (
                 FileOutputStream fos = new FileOutputStream(file);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
-        ){
+        ) {
             oos.writeObject(user);
             response.sendRedirect("/signup_success.html");
         } catch (IOException e) {
@@ -75,19 +75,42 @@ public class UserController {
     }
 
 
-
-
-
     @RequestMapping("/loginUser")
-    public void loginUser(HttpServletRequest request, HttpServletResponse response) {
+    public void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("处理...");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         System.out.println(username + "," + password);
-        ;
+        if (username == null || username.isEmpty() ||
+                password == null || password.isEmpty()) {
+            response.sendRedirect("/login_info_error.html");
+            return;
+        }
+
+        //读取注册信息
+        File file = new File("./users/"+username + ".obj");
+        if (file.exists()) {
+            try (
+                    FileInputStream fis = new FileInputStream(file);
+                    ObjectInputStream ois =new ObjectInputStream(fis);
+                    )
+            {
+                User user = (User) ois.readObject();
+                if (user.getPassword().equals(password)){
+                    response.sendRedirect("/login_success.html");
+                }else{
+                    response.sendRedirect("/login_fail.html");
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            response.sendRedirect("/login_fail.html");
+        }
+
+
     }
-
-
 
 
 }
