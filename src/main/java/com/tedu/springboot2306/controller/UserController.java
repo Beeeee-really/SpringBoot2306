@@ -123,8 +123,21 @@ public class UserController {
             发送
          */
         List<User> userList = new ArrayList<>();
-        userDir.listFiles(f -> f.getName().endsWith(".obj"));
+        File[] subs = userDir.listFiles(f -> f.getName().endsWith(".obj"));
+        for (File sub : subs) {
+            System.out.println(sub.getName());
+            try (
+                    FileInputStream fis = new FileInputStream(sub);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+            ) {
+                User user = (User) ois.readObject();
+                System.out.println(user);
+                userList.add(user);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
