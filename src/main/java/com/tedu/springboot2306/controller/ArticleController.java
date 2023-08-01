@@ -129,7 +129,7 @@ public class ArticleController {
         System.out.println("处理...");
         String name = request.getParameter("name");
         System.out.println(name + ".obj");
-        File file = new File("./article/"+name + ".obj");
+        File file = new File("./article/" + name + ".obj");
         if (name == null || name.isEmpty()) {
             try {
                 response.sendRedirect("/error.html");
@@ -141,6 +141,7 @@ public class ArticleController {
         if (!file.exists()) {
             try {
                 response.sendRedirect("/error.html");
+                return;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -153,6 +154,7 @@ public class ArticleController {
             try {
                 response.setContentType("text/html;charset=utf-8");
                 PrintWriter pw = response.getWriter();
+                
                 pw.println("<!DOCTYPE html>");
                 pw.println("<html>");
                 pw.println("<head>");
