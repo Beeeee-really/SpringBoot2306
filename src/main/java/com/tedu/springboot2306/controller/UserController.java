@@ -74,7 +74,7 @@ public class UserController {
         }
         try (
                 FileOutputStream fos = new FileOutputStream(file);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                ObjectOutputStream oos = new ObjectOutputStream(fos)
         ) {
             oos.writeObject(user);
             response.sendRedirect("/signup_success.html");
